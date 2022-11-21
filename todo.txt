@@ -1,0 +1,42 @@
+calculator:
+
+addeventlistener('click')
+
+if event == number:
+pass
+
+if event != number:
+
+
+    if event == 'C' || event == 'backwards':    
+        case C:
+            buffer = '0'
+            totalvalue = 0
+            previousoperation = null
+        case backwards:
+            if buffer.length() == 1:
+                buffer = 0
+                totalValue = 0
+            else:
+                buffer = buffer[0:buffer.length-1]
+
+    
+    
+    
+    
+    else:
+        
+        case +:
+            doOperation(prevOperation)
+            buffer = '0'
+            prevOperation = '+'
+        case -:
+            doOperation(prevOperation)
+
+        case *:
+
+        case /:
+        
+        case =:
+            doOperation(prevOperation)
+            prevOperation = null
