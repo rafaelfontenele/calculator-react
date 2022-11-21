@@ -110,6 +110,7 @@ body{
 }
 
 .et {
+    display: inline-block;
     width: 60px;
     height: auto;
     text-align: center;
