@@ -1,106 +1,60 @@
-let buffer = "0";
-let previousOperator;
-let maxInteger = "9";
-let displayMaxLength = 13;
-let maxBuffer = parseInt(maxInteger.repeat(displayMaxLength));
-let totalValue = 0;
+class Calculator {
+    constructor(mainDisplay, secDisplay) {
+        this.mainDisplay = mainDisplay;
+        this.secDisplay = secDisplay;
+        this.previousOperator = null;
+        this.currentOperator = null;
+        this.reset();
+    }
 
+    reset() {
+        this.mainDisplay = '';
+        this.secDisplay = '';
+    }
 
-
-/*  
-
-symbols =      ←    −  ×    ÷   +
-
-*/
-
-const display = document.querySelector('.display');
-
-function buttonClick(value) {
-    if (isNaN(value)) {        
-        handleSymbol(value)
-
-    } else{        
-         /* handle max value(15 chars in display) */
-        if (parseInt(buffer) > maxBuffer) {
-            buffer = maxBuffer;
-            totalValue = maxBuffer;
-            previousOperator = null
+    backspace() {
+        if (this.mainDisplay.textContent) {
+            this.mainDisplay.textContent = mainDisplay.textContent.toString.slice(0,-1);
         }
-
-        handleNumber(value)
-    }   
-    
-    display.innerText = buffer;
-
-
-}
-
-function handleNumber(numberString) {
-    if (buffer === '0') {
-        buffer = numberString;
-    } else{
-        buffer += numberString;
-    } 
-
-}
-
-
-
-
-function handleSymbol(symbol) {
-    switch(symbol) {
-        case 'C':
-            buffer = '0';
-            totalValue = 0;
-            previousOperator = null;
+    }
+    append(number) {
+        if (number = '.' && this.mainDisplay.textContent.contains('.')) {
             return
-        
-        case '=':
-            if (previousOperator == null) {
-                return
-            };
-            doOperation(parseInt(buffer));
-            previousOperator = Null;  
-            buffer = totalValue;      
-            totalValue = 0;
-            break
-            
-        
-        case '←':
-            if (buffer.length == 1) {
-                buffer = '0';
-                totalValue = 0;
-                return
-            }
-            else {
-                buffer = buffer.slice(0, buffer.length - 1);
-                return
-            }
-            break;
-        
-
-        case '+':
-            
-    }
-}
-
-function doOperation(intBuffer) {
-    if (previousOperator == null){
-        return
-    }else {
-        if (previousOperator = '+') {
-            totalValue += buffer
+        } else {
+            this.mainDisplay.textContent += number;
         }
     }
-    
+
+    updateDisplay() {
+
+    }
+
+
+
+
+
 }
-    
+//  symbols =      ←    −  ×    ÷   +
 
-function init() {
-    document.querySelector('.calculator').addEventListener('click', function(event){
-        buttonClick(event.target.innerText);
-    })
 
-}
+///  CONSTRUCTORs && event listeners
+const calculator = document.querySelector
+                            ('.calculator');
 
-init();
+calcButtons = calculator.querySelectorAll
+                                ('.calc-button');
+
+calcButtons.forEach( btn => {
+    btn.addEventListener('click', () => {
+        buttonClick(btn.textContent.trim());
+    }
+})
+
+
+const mainDisplay = document.querySelector('.display');
+const secDisplay = document.querySelector('.total-display');
+
+const calc = new Calculator(mainDisplay, secDisplay);
+
+
+console.log(calc.mainDisplay);
