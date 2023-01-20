@@ -1,15 +1,24 @@
 class Calculator {
-    constructor(mainDisplay, secDisplay) {
+    constructor(mainDisplay) {
         this.mainDisplay = mainDisplay;
-        this.secDisplay = secDisplay;
+        //this.secDisplay = secDisplay;
         this.previousOperator = null;
         this.currentOperator = null;
         this.reset();
     }
 
+    changeDisplay(text) {
+        this.mainDisplay = text;
+    }
+
+    
     reset() {
         this.mainDisplay = '';
         this.secDisplay = '';
+    }
+
+    test() {
+        alert(this.mainDisplay);
     }
 
     backspace() {
@@ -28,33 +37,32 @@ class Calculator {
     updateDisplay() {
 
     }
+    
+    
+    handleClick(click) {
+    }
 
 
 
 
 
 }
+
+
 //  symbols =      ←    −  ×    ÷   +
 
 
 ///  CONSTRUCTORs && event listeners
-const calculator = document.querySelector
-                            ('.calculator');
-
-calcButtons = calculator.querySelectorAll
-                                ('.calc-button');
-
+const calculator = document.querySelector('.calculator');
+const mainDisplay = document.querySelector('.mainDisplay');
+const secDisplay = document.querySelector('.secDisplay');
+calcButtons = calculator.querySelectorAll('.calc-button');
+const calc = new Calculator(mainDisplay);
 calcButtons.forEach( btn => {
     btn.addEventListener('click', () => {
-        buttonClick(btn.textContent.trim());
-    }
+        calc.handleClick(btn.textContent.trim());
+    })
 })
 
-
-const mainDisplay = document.querySelector('.display');
-const secDisplay = document.querySelector('.total-display');
-
-const calc = new Calculator(mainDisplay, secDisplay);
-
-
-console.log(calc.mainDisplay);
+mainDisplay.textContent = 'asdasd'
+secDisplay.textContent = 'asdasd'
