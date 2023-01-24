@@ -81,6 +81,7 @@
   text-align: right;
   width: 326px;
   height: auto;
+  overflow: hidden;
 }
 
 .calculator-row {
