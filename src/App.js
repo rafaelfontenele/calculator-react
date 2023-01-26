@@ -2,80 +2,152 @@ import './App.css';
 import et from './et.jpg';
 import { useState, useEffect} from 'react';
 
-//SYMBOLS ==      =   +   −     ×     ÷     ←
+//SYMBOLS ==      =   +   −     ×     ÷     ←             −
 
 function App() {
   const MAX_LENGTH = 16; //  16
   const [current, setCurrent] = useState(0);
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(999);
   const [previousOperator, setPreviousOperator] = useState(null);
 
 
 
-  function handleNumber(value) {
+  function handleNumberAndDot(value) {
   //console.log(`number: ${value}`)
       if (current.toString().length < MAX_LENGTH) {
-        setCurrent( (prev) => parseFloat(prev.toString() + value.toString()));
-      } else {
-        setCurrent( (prev) => ('999999999999999'));
-      }
-  }
+        if (value.toString() === '.' && current.toString().contains('.')){
+          alert('already has DOT');
+          return
+        } 
+        setCurrent((prevState) => prevState.toString + value.toString());
+        return
+  } 
+  setCurrent('9999999999999999');
+  return
+}
 
   function handleClick(target) {
-    if (!isNaN(target)) {
-      handleNumber(target);
-    } else {
+    if (!isNaN(target) || target==='.') {
+      handleNumberAndDot(target);
+      return;
+    } 
+
       switch(target) {
+        
         case 'C':
           clearAll();
           break;
+        
         case '←':
           backspace();
           break
+        
         case '=':
           equals();
           break        
-        default:
-          solveOperation();
-          setPreviousOperator(target);
-          alert(previousOperator);
+          
+          default:    //clicked on operations
+
+          handleOperation(target);
+          
+
 
 
       }
     }
-  }
+
+function handleOperation(target) {
+    if (!previousOperator) {
+      
+      if (parseFloat(total) === 0) {
+        setTotal(current);
+        setCurrent(0);
+        setPreviousOperator(target);
+        return
+      }
+
+      if (parseFloat(current) === 0) {
+        setPreviousOperator(target);
+        return
+      }
+
+      setTotal(current);
+      setCurrent(0);
+      setPreviousOperator(target);
+      return
+    }
+
+    if (parseFloat(current) === 0) {
+      setPreviousOperator(target);
+      return
+    }
+
+    equals();
+
+    setPreviousOperator(target);
+}
+  
+
+function errorAnimation() {
+  alert('Cannot divide by 0.');
+}
+//SYMBOLS ==      =   +   −     ×     ÷     ←  
 
   function solveOperation() {
+    let fTotal = parseFloat(total);
+    let fCurrent = parseFloat(current);
     if (!previousOperator) {
       return;
     }
-    switch (previousOperator) {
-      case (previousOperator == '+'):
-        setTotal((prev) => (prev + current));
-        break
-      case (previousOperator == '-'):
-        setTotal((prev) => (prev - current));
-        break
-      case (previousOperator == '×'):
-        setTotal((prev) => (prev * current));
-        break
-      case (previousOperator == '÷'):
-        //handleError( 0 division error);
-        setTotal((prev) => (prev / current));
-        break
-      case (previousOperator == '')
-    }
-    
-    setPreviousOperator(null);
+      if (previousOperator === '+'){
+        return fTotal + fCurrent;
+      }
 
+      if (previousOperator == '−') {
+        return fTotal- fCurrent;
+      }
+
+      if (previousOperator === '×'){
+        return (fTotal* fCurrent);
+      }
+
+      if (previousOperator === '÷') {
+        alert('lo')
+        if (fCurrent === 0){
+          alert('hi')
+           return 'error';
+        }
+        return (fTotal / fCurrent)
+      }
+     
+}
+
+  function equals() {
+  console.log('equals');
+    if (!previousOperator) {
+      setTotal(parseFloat(current));
+      setCurrent(0);
+      return
+    }
+    if (parseFloat(current) === 0) {
+      errorAnimation()
+      return
+    }
+    let result = solveOperation();
+    if (result == 'error') return errorAnimation();
+    console.log(`result = ${result}`);
+    setTotal(result);
+    setCurrent(0);
+    setPreviousOperator(null);
   }
 
-//SYMBOLS ==      =   +   −     ×     ÷     ←
+
 
   function clearAll() {
     console.log('clearAll');
     setCurrent(0);
     setTotal(0);
+    setPreviousOperator(null);
   }
 
   function backspace() {
@@ -89,15 +161,6 @@ function App() {
     
   }
 
-  function equals() {
-  console.log('equals');
-    if (!previousOperator) {
-      return
-    }
-    solveOperation();
-  }
-
-  
   const Button = (props) => {
     return <>
         <button className={props.classes} 
@@ -112,17 +175,24 @@ function App() {
     <div className="App">
 
       <div className="calculator">
-       <div style={
-        {display:'flex',
-        justifyContent:'end',
-        fontSize:'40px'}
-      }>{previousOperator ? previousOperator : 'Null'}</div>
+       <div className="display">
+      
       <div style={
         {display:'flex',
         justifyContent:'end',
-        fontSize:'40px'}
-      }>{total}</div>
-       <div className="display">{current}</div>
+        fontSize:'20px',
+      gap:'5px'}
+      }>
+        
+        {(total < 0) ? `(${total})` : total} 
+      
+      <span style={
+        {fontSize:'15px',
+      alignSelf:'center'}
+      }>{previousOperator || ''}</span></div>
+        
+        {current}
+        </div>
 
        <div className="calculator-row">
            <Button text= 'C' classes='calc-button double' />
@@ -155,7 +225,8 @@ function App() {
 
 
         <div className="calculator-row">
-          <Button text= '0' classes='calc-button triple' />
+          <Button text= '0' classes='calc-button double-zero' />
+        <Button text= '.' classes='calc-button' />
           <Button text= '=' classes='calc-button' />
         </div>
 

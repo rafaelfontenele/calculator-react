@@ -55,7 +55,7 @@
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   background: rgba(255, 255, 255, 0.3);
-  border: 2px solid rgba(0, 0, 0, 0.50);
+  border: 2px solid rgba(0, 0, 0, 0.80);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(35, 35, 35, 0.1);
   color: black;
@@ -85,9 +85,9 @@
 }
 
 .calculator-row {
- display: flex;
- justify-content: space-between;
- margin: 5% 0; 
+  display: flex;
+  justify-content: space-around;
+  margin: 5% 0%;
 }
 
 .calc-button {
@@ -96,7 +96,6 @@
   background: rgba(255, 255, 255, 0.75);
   border: 1px solid rgba(255, 255, 255, 0.01);
   border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(35, 35, 35, 0.1);
   color: black;
   flex-basis: 20%;
   font-family: inherit;
@@ -137,10 +136,10 @@
   background-color: rgba(255, 0, 0, 0.870)
 }
 
-.triple {
-  flex-basis: 73%;
-}
+.double-zero {
+  flex-basis:47%;
 
+}
 .et-logo {
   display: inline-block;
   width: 60px;
