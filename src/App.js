@@ -7,23 +7,28 @@ import { useState, useEffect} from 'react';
 function App() {
   const MAX_LENGTH = 16; //  16
   const [current, setCurrent] = useState(0);
-  const [total, setTotal] = useState(999);
+  const [total, setTotal] = useState(0);
   const [previousOperator, setPreviousOperator] = useState(null);
-
 
 
   function handleNumberAndDot(value) {
   //console.log(`number: ${value}`)
-      if (current.toString().length < MAX_LENGTH) {
-        if (value.toString() === '.' && current.toString().contains('.')){
-          alert('already has DOT');
-          return
-        } 
-        setCurrent((prevState) => prevState.toString + value.toString());
-        return
-  } 
-  setCurrent('9999999999999999');
+  if (value.toString() === '.') { ///check if dot already in string
+    if (current.toString().includes('.')){
+      return;
+    }
+    
+  }
+  if (current.toString().length >= MAX_LENGTH) { //check if string reached max length
+    return;
+  }
+  if (current == 0) { //if current is 0, then make it the value instead of appending the value to current number
+    setCurrent(value);
+    return
+  }
+  setCurrent((prev) => prev.toString() + value.toString());
   return
+
 }
 
   function handleClick(target) {
@@ -112,9 +117,7 @@ function errorAnimation() {
       }
 
       if (previousOperator === '÷') {
-        alert('lo')
         if (fCurrent === 0){
-          alert('hi')
            return 'error';
         }
         return (fTotal / fCurrent)
@@ -155,7 +158,7 @@ function errorAnimation() {
     if (current.toString().length <= 1) {
       setCurrent(0);
     } else {
-      let newVal = parseFloat(current.toString().slice(0, current.toString().length -1 ));
+      let newVal = (current.toString().slice(0, current.toString().length -1 ));
       setCurrent(newVal);
     }
     
@@ -234,7 +237,6 @@ function errorAnimation() {
     </div>
   );
 }
-
 
 
   export default App;
